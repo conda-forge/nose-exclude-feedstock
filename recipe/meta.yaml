@@ -6,24 +6,26 @@ package:
   version: "{{ version }}"
 
 source:
-  url: https://pypi.io/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
+  url: https://pypi.org/packages/source/{{ name[0] }}/{{ name }}/{{ name }}-{{ version }}.tar.gz
   sha256: f78fa8b41eeb815f0486414f710f1eea0949e346cfb11d59ba6295ed69e84304
 
 build:
-  number: 0
+  number: 1
   noarch: python
   script: "{{ PYTHON }} -m pip install . --no-deps --ignore-installed -vv "
 
 requirements:
   host:
     - pip
-    - python
+    - python {{ python_min }}
   run:
     - nose
-    - python
+    - python >={{ python_min }}
     - setuptools
 
 test:
+  requires:
+    - python {{ python_min }}
   imports:
     - nose_exclude
 
